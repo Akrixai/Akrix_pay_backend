@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ['nodejs_20', 'npm-10_x']
+
+[phases.install]
+cmds = ['npm ci --production --legacy-peer-deps']
+
+[phases.build]
+cmds = ['echo "Build already completed"']
+
+[start]
+cmd = 'npm run start:prod'
