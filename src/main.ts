@@ -4,8 +4,8 @@ import { AppModule } from './app.module';
 import { webcrypto } from 'crypto';
 
 // Ensure crypto is available globally for TypeORM
-if (!global.crypto) {
-  global.crypto = webcrypto as any;
+if (!(globalThis as any).crypto) {
+  (globalThis as any).crypto = webcrypto;
 }
 
 async function bootstrap() {
