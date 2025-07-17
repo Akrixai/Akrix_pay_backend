@@ -1,11 +1,1 @@
-[phases.setup]
-nixPkgs = ['nodejs_20', 'npm-10_x']
-
-[phases.install]
-cmds = ['npm ci --production --legacy-peer-deps']
-
-[phases.build]
-cmds = ['echo "Build already completed"']
-
-[start]
-cmd = 'npm run start:prod'
+# Cleaned nixpacks.toml to avoid npm-10_x errors. Let Nixpacks auto-detect Node version from .nvmrc.
