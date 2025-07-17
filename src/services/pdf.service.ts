@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as PDFDocument from 'pdfkit';
+import PDFDocument from 'pdfkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -42,7 +42,7 @@ export class PdfService {
     }
   }
 
-  private generatePDF(doc: PDFKit.PDFDocument, receiptData: ReceiptData): void {
+  private generatePDF(doc: InstanceType<typeof PDFDocument>, receiptData: ReceiptData): void {
     // Header with company branding
     this.addHeader(doc);
 
@@ -59,7 +59,7 @@ export class PdfService {
     this.addFooter(doc);
   }
 
-  private addHeader(doc: PDFKit.PDFDocument): void {
+  private addHeader(doc: InstanceType<typeof PDFDocument>): void {
     // Add Akrix Logo
     try {
       const logoPath = path.join(process.cwd(), '..', 'frontend', 'public', 'akrix-logo.png');
@@ -115,7 +115,7 @@ export class PdfService {
        .stroke();
   }
 
-  private addReceiptTitle(doc: PDFKit.PDFDocument, receiptNumber: string): void {
+  private addReceiptTitle(doc: InstanceType<typeof PDFDocument>, receiptNumber: string): void {
     // Receipt title with attractive background
     doc.rect(50, 170, 500, 60)
        .fillAndStroke('#ecfdf5', '#10b981');
@@ -146,7 +146,7 @@ export class PdfService {
        .text(new Date().toLocaleDateString('en-IN'), 430, 215);
   }
 
-  private addCustomerDetails(doc: PDFKit.PDFDocument, receiptData: ReceiptData): void {
+  private addCustomerDetails(doc: InstanceType<typeof PDFDocument>, receiptData: ReceiptData): void {
     const startY = 280;
 
     // Section header - clean text
@@ -193,7 +193,7 @@ export class PdfService {
     });
   }
 
-  private addPaymentDetails(doc: PDFKit.PDFDocument, receiptData: ReceiptData): void {
+  private addPaymentDetails(doc: InstanceType<typeof PDFDocument>, receiptData: ReceiptData): void {
     const startY = 480;
 
     // Section header - clean text
@@ -256,7 +256,7 @@ export class PdfService {
        .text(`Rs. ${receiptData.amount.toLocaleString('en-IN')}`, 350, yPos + 10);
   }
 
-  private addFooter(doc: PDFKit.PDFDocument): void {
+  private addFooter(doc: InstanceType<typeof PDFDocument>): void {
     const footerY = 720;
 
     // Decorative line

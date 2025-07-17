@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as PDFDocument from 'pdfkit';
+import PDFDocument from 'pdfkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -45,7 +45,7 @@ export class PdfCompactService {
     }
   }
 
-  private generateCompactPDF(doc: PDFKit.PDFDocument, receiptData: ReceiptData): void {
+  private generateCompactPDF(doc: InstanceType<typeof PDFDocument>, receiptData: ReceiptData): void {
     let currentY = 40;
 
     // Header
@@ -64,7 +64,7 @@ export class PdfCompactService {
     this.addFooter(doc, currentY);
   }
 
-  private addHeader(doc: PDFKit.PDFDocument, startY: number): number {
+  private addHeader(doc: InstanceType<typeof PDFDocument>, startY: number): number {
     // Logo
     try {
       const logoPath = path.join(process.cwd(), '..', 'frontend', 'public', 'akrix-logo.png');
@@ -89,7 +89,7 @@ export class PdfCompactService {
     return startY + 65;
   }
 
-  private addReceiptTitle(doc: PDFKit.PDFDocument, receiptNumber: string, startY: number): number {
+  private addReceiptTitle(doc: InstanceType<typeof PDFDocument>, receiptNumber: string, startY: number): number {
     doc.fillColor('#059669').fontSize(18).font('Helvetica-Bold').text('PAYMENT RECEIPT', 40, startY);
     doc.fillColor('#374151').fontSize(12).font('Helvetica').text(`Receipt #: ${receiptNumber}`, 40, startY + 25);
     doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 300, startY + 25);
@@ -97,7 +97,7 @@ export class PdfCompactService {
     return startY + 50;
   }
 
-  private addDetailsSection(doc: PDFKit.PDFDocument, receiptData: ReceiptData, startY: number): number {
+  private addDetailsSection(doc: InstanceType<typeof PDFDocument>, receiptData: ReceiptData, startY: number): number {
     // Customer details (left column)
     doc.fillColor('#1e40af').fontSize(14).font('Helvetica-Bold').text('Customer Details', 40, startY);
     
@@ -135,7 +135,7 @@ export class PdfCompactService {
     return Math.max(startY + 25 + (customerDetails.length * 18), startY + 25 + (paymentDetails.length * 18)) + 20;
   }
 
-  private addTotalSection(doc: PDFKit.PDFDocument, receiptData: ReceiptData, startY: number): number {
+  private addTotalSection(doc: InstanceType<typeof PDFDocument>, receiptData: ReceiptData, startY: number): number {
     // Total amount box
     doc.rect(40, startY, 515, 40).fillAndStroke('#dcfce7', '#16a34a');
     
@@ -145,7 +145,7 @@ export class PdfCompactService {
     return startY + 60;
   }
 
-  private addFooter(doc: PDFKit.PDFDocument, startY: number): void {
+  private addFooter(doc: InstanceType<typeof PDFDocument>, startY: number): void {
     // Thank you message
     doc.fillColor('#059669').fontSize(14).font('Helvetica-Bold').text('Thank You for Your Payment!', 40, startY);
     doc.fillColor('#374151').fontSize(11).font('Helvetica').text('Your transaction has been processed successfully.', 40, startY + 20);
